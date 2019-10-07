@@ -1,11 +1,10 @@
 package com.example.rickandmortyapp
 
-import android.os.AsyncTask
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_main.*
@@ -14,14 +13,14 @@ import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
-        val queue = Volley.newRequestQueue(this)
+        val queue = VolleySingleton.getInstance(this).requestQueue
         val url = "https://rickandmortyapi.com/api/location"
-
 
         val stringRequest = StringRequest(
             Request.Method.GET, url,
@@ -31,9 +30,18 @@ class MainActivity : AppCompatActivity() {
                 val locations : JSONArray = JSONArray(jsonObject.getString("results"))
                 handleJson(locations)
             },
-            Response.ErrorListener {print("failed")})
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest)
+            Response.ErrorListener {print("failed")}
+        )
+
+        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest)
+
+        locations_list.setOnItemClickListener { parent, view, position, id ->
+
+            val selectedLocation = parent.getItemAtPosition(position) as Location
+            val intent = Intent(this, LocationDetail::class.java)
+            intent.putExtra("locationId", selectedLocation.id)
+            startActivity(intent)
+        }
     }
 
     private fun handleJson(locations : JSONArray?)
@@ -49,7 +57,9 @@ class MainActivity : AppCompatActivity() {
                     jsonObject.getInt("id"),
                         jsonObject.getString("name"),
                         jsonObject.getString("type"),
-                        jsonObject.getString("dimension"))
+                        jsonObject.getString("dimension"),
+                        jsonObject.getJSONArray("residents")
+                        )
                 )
                 x ++
             }
