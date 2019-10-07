@@ -6,7 +6,6 @@ import android.os.Bundle
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -18,8 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        val queue = VolleySingleton.getInstance(this).requestQueue
+        VolleySingleton.getInstance(this).requestQueue
         val url = "https://rickandmortyapi.com/api/location"
 
         val stringRequest = StringRequest(
@@ -38,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         locations_list.setOnItemClickListener { parent, view, position, id ->
 
             val selectedLocation = parent.getItemAtPosition(position) as Location
-            val intent = Intent(this, LocationDetail::class.java)
+            val intent = Intent(this, CharacterListActivity::class.java)
             intent.putExtra("locationId", selectedLocation.id)
             startActivity(intent)
         }
@@ -63,7 +61,8 @@ class MainActivity : AppCompatActivity() {
                 )
                 x ++
             }
-            val adapter = ListAdapte(this, list)
+
+            val adapter = ListAdapterLocation(this, list)
             locations_list.adapter = adapter
         }
     }

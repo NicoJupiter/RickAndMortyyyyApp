@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import androidx.appcompat.widget.AppCompatTextView
 
-class  ListAdapte(val context: Context, val list: ArrayList<Location>) : BaseAdapter() {
+class  ListAdapterLocation(val context: Context, val list: ArrayList<Location>) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 

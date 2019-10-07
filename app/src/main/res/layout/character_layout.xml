@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/character_id"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/text_size"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/character_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/text_size"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/character_status"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/text_size"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/character_species"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/text_size"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/character_type"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/text_size"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/character_gender"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/text_size"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/character_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/text_size"/>
+
+</LinearLayout>
