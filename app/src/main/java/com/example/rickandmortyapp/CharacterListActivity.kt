@@ -1,5 +1,6 @@
 package com.example.rickandmortyapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
@@ -47,6 +48,14 @@ class CharacterListActivity : AppCompatActivity() {
             Response.ErrorListener {print("failed")}
         )
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest)
+
+        character_list.setOnItemClickListener { parent, view, position, id ->
+
+            val selectedCharacter = parent.getItemAtPosition(position) as Character
+            val intent = Intent(this, CharacterDetailActivity::class.java)
+            intent.putExtra("character_extra", selectedCharacter)
+            startActivity(intent)
+        }
 
     }
 

@@ -19,6 +19,9 @@
         <activity android:name=".CharacterListActivity">
 
         </activity>
+        <activity android:name=".CharacterDetailActivity">
+
+        </activity>
     </application>
 
 </manifest>
