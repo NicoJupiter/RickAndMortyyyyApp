@@ -47,5 +47,13 @@ class LocalFileManager {
 
             outputStream.close()
         }
+        fun getFileContent(context: Context, filename: String) : List<String>
+        {
+            val fileInputStream : FileInputStream = context.openFileInput(filename)
+            val inputStreamReader = InputStreamReader(fileInputStream)
+            val bufferedReader = BufferedReader(inputStreamReader)
+            val result: List<String> = bufferedReader.readLine().split(",").map { it.trim() }
+            return result
+        }
     }
 }
