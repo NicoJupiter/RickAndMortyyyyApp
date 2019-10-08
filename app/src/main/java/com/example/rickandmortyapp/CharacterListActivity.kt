@@ -2,6 +2,9 @@ package com.example.rickandmortyapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.ListView
+import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.Response
@@ -9,14 +12,13 @@ import com.android.volley.toolbox.StringRequest
 import kotlinx.android.synthetic.main.character_main.*
 import org.json.JSONArray
 import org.json.JSONObject
-import android.widget.BaseAdapter
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.os.AsyncTask
-import com.android.volley.toolbox.JsonObjectRequest
-import java.net.HttpURLConnection
-import java.net.URL
+
+
+
+
 
 
 class CharacterListActivity : AppCompatActivity() {
@@ -30,6 +32,7 @@ class CharacterListActivity : AppCompatActivity() {
 
         val id: Int = intent.getIntExtra("locationId", 0)
         val url = "https://rickandmortyapi.com/api/location/${id}"
+
 
         val stringRequest = StringRequest(
             Request.Method.GET, url,
@@ -84,6 +87,19 @@ class CharacterListActivity : AppCompatActivity() {
             Response.ErrorListener {print("failed")}
         )
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest)
+    }
+    fun onToggleClicked(view: View) {
+        val on = (view as ToggleButton).isChecked
+        val parentRow = view.getParent() as View
+        val listView = parentRow.parent as ListView
+        val position = listView.getPositionForView(parentRow)
+        val selectedCharacter = listView.getItemAtPosition(position) as Character
+        println(selectedCharacter.id)
+        if (on) {
+          println("on")
+        } else {
+            println("off")
+        }
     }
 }
 
