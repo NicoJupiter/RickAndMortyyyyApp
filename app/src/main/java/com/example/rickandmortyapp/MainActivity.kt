@@ -7,8 +7,15 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.bottom_navigation
+import kotlinx.android.synthetic.main.character_main.*
 import org.json.JSONArray
 import org.json.JSONObject
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import androidx.core.os.bundleOf
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,12 +41,29 @@ class MainActivity : AppCompatActivity() {
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest)
 
         locations_list.setOnItemClickListener { parent, view, position, id ->
-
             val selectedLocation = parent.getItemAtPosition(position) as Location
             val intent = Intent(this, CharacterListActivity::class.java)
-            intent.putExtra("locationId", selectedLocation.id)
+            intent.putExtra("location", selectedLocation)
             startActivity(intent)
         }
+
+        bottom_navigation.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.action_home -> {
+                    println("home")
+                }
+                R.id.action_favorites -> {
+                    val intent = Intent(this, CharacterListActivity::class.java)
+                    intent.putExtra("displayFav", true)
+                    startActivity(intent)
+                }
+                R.id.action_add -> {
+                    println("add")
+                }
+            }
+            return@setOnNavigationItemSelectedListener true
+        }
+
     }
 
     private fun handleJson(locations : JSONArray?)
@@ -55,8 +79,7 @@ class MainActivity : AppCompatActivity() {
                     jsonObject.getInt("id"),
                         jsonObject.getString("name"),
                         jsonObject.getString("type"),
-                        jsonObject.getString("dimension"),
-                        jsonObject.getJSONArray("residents")
+                        jsonObject.getString("dimension")
                         )
                 )
                 x ++

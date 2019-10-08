@@ -15,6 +15,11 @@ import kotlinx.android.synthetic.main.character_main.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.*
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
 
 
 
@@ -29,7 +34,79 @@ class CharacterListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.character_main)
 
-        val id: Int = intent.getIntExtra("locationId", 0)
+        val isDesplayFav : Boolean = intent.getBooleanExtra("displayFav", false)
+        if(isDesplayFav)
+        {
+           val listUrl: List<String> = LocalFileManager.getFileContent(this, filename)
+            displayFavoriteCharacter(listUrl)
+        } else {
+            val location = intent.getSerializableExtra("location") as Location
+            displayResidentFromLocation(location.id)
+        }
+
+
+        character_list.setOnItemClickListener { parent, view, position, id ->
+
+            val selectedCharacter = parent.getItemAtPosition(position) as Character
+            val intent = Intent(this, CharacterDetailActivity::class.java)
+            intent.putExtra("character_extra", selectedCharacter)
+            startActivity(intent)
+        }
+
+        bottom_navigation.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.action_home -> {
+                    println("home")
+                }
+                R.id.action_favorites -> {
+                    val intent = Intent(this, CharacterListActivity::class.java)
+                    intent.putExtra("displayFav", true)
+                    startActivity(intent)
+                }
+                R.id.action_add -> {
+                    println("add")
+                }
+            }
+            return@setOnNavigationItemSelectedListener true
+        }
+
+    }
+
+    private fun displayFavoriteCharacter(urls : List<String>) {
+
+      val url =  "https://rickandmortyapi.com/api/character/"+ urls.joinToString()
+        val stringRequest = StringRequest(
+            Request.Method.GET, url,
+            Response.Listener<String> { response ->
+                val stringresp = response.toString()
+                val characters  = JSONArray(stringresp)
+                var x = 0
+                while (x < characters.length())
+                {
+                  val jsonObject = characters.getJSONObject(x)
+                    listCharacter.add(
+                        Character(
+                            jsonObject.getInt("id"),
+                            jsonObject.getString("name"),
+                            jsonObject.getString("status"),
+                            jsonObject.getString("species"),
+                            jsonObject.getString("type"),
+                            jsonObject.getString("gender"),
+                            jsonObject.getString("image")
+                        )
+                    )
+                    x++
+                }
+              val adapter = ListAdapterCharacter(this, listCharacter)
+                character_list.adapter = adapter
+            },
+            Response.ErrorListener {print("failed")}
+        )
+        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest)
+    }
+
+    private fun displayResidentFromLocation(id : Int) {
+
         val url = "https://rickandmortyapi.com/api/location/${id}"
 
 
@@ -51,14 +128,6 @@ class CharacterListActivity : AppCompatActivity() {
         )
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest)
 
-        character_list.setOnItemClickListener { parent, view, position, id ->
-
-            val selectedCharacter = parent.getItemAtPosition(position) as Character
-            val intent = Intent(this, CharacterDetailActivity::class.java)
-            intent.putExtra("character_extra", selectedCharacter)
-            startActivity(intent)
-        }
-
     }
 
     private fun getResidents(url : String?)
@@ -67,8 +136,7 @@ class CharacterListActivity : AppCompatActivity() {
             Request.Method.GET, url,
             Response.Listener<String> { response ->
                 val stringresp = response.toString()
-                val jsonObject : JSONObject = JSONObject(stringresp)
-                println(jsonObject.getString("name"))
+                val jsonObject = JSONObject(stringresp)
                 listCharacter.add(
                     Character(
                         jsonObject.getInt("id"),
