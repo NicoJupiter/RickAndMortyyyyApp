@@ -3,7 +3,6 @@ package com.example.rickandmortyapp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import android.widget.ListView
 import android.widget.ToggleButton
@@ -14,11 +13,6 @@ import com.android.volley.toolbox.StringRequest
 import kotlinx.android.synthetic.main.character_main.*
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.*
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
 
 
 
@@ -26,7 +20,6 @@ import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 class CharacterListActivity : AppCompatActivity() {
 
     private val listCharacter = ArrayList<Character>()
-    private var residents = JSONArray()
     var filename = "character_fav_test2.txt"
 
 
@@ -115,7 +108,7 @@ class CharacterListActivity : AppCompatActivity() {
             Response.Listener<String> { response ->
                 val stringresp = response.toString()
                 val jsonObject : JSONObject = JSONObject(stringresp)
-                residents  = JSONArray(jsonObject.getString("residents"))
+                val residents  = JSONArray(jsonObject.getString("residents"))
 
                 var x = 0
                 while(x < residents.length())
@@ -156,6 +149,11 @@ class CharacterListActivity : AppCompatActivity() {
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest)
     }
 
+
+    fun getCharacterbyType(view: View)
+    {
+        println("click label")
+    }
     fun onToggleClicked(view: View) {
         val on = (view as ToggleButton).isChecked
         val parentRow = view.getParent() as View

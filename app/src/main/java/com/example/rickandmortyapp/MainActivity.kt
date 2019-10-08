@@ -14,6 +14,8 @@ import org.json.JSONObject
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.View
+import android.widget.ListView
 import androidx.core.os.bundleOf
 
 
@@ -33,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                 var stringresp = response.toString()
                 val jsonObject : JSONObject = JSONObject(stringresp)
                 val locations : JSONArray = JSONArray(jsonObject.getString("results"))
-                handleJson(locations)
+                getLocation(locations)
             },
             Response.ErrorListener {print("failed")}
         )
@@ -66,7 +68,30 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun handleJson(locations : JSONArray?)
+    fun getLocationbyType(view: View)
+    {
+        println("click on location")
+        val parentRow = view.getParent() as View
+        val listView = parentRow.parent as ListView
+        val position = listView.getPositionForView(parentRow)
+        val selectedLocation = listView.getItemAtPosition(position) as Location
+
+        val stringRequest = StringRequest(
+            Request.Method.GET, "https://rickandmortyapi.com/api/location?type="+selectedLocation.type,
+            Response.Listener<String> { response ->
+                var stringresp = response.toString()
+                val jsonObject : JSONObject = JSONObject(stringresp)
+                val locations : JSONArray = JSONArray(jsonObject.getString("results"))
+                getLocation(locations)
+            },
+            Response.ErrorListener {print("failed")}
+        )
+
+        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest)
+
+    }
+
+    private fun getLocation(locations : JSONArray?)
     {
         val list = ArrayList<Location>()
         if(locations !== null)
