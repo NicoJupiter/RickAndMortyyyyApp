@@ -1,7 +1,9 @@
 package com.example.rickandmortyapp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.ListView
 import android.widget.ToggleButton
@@ -12,12 +14,7 @@ import com.android.volley.toolbox.StringRequest
 import kotlinx.android.synthetic.main.character_main.*
 import org.json.JSONArray
 import org.json.JSONObject
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-
-
+import java.io.*
 
 
 
@@ -25,6 +22,8 @@ class CharacterListActivity : AppCompatActivity() {
 
     private val listCharacter = ArrayList<Character>()
     private var residents = JSONArray()
+    var filename = "character_fav_test.txt"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,18 +87,42 @@ class CharacterListActivity : AppCompatActivity() {
         )
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest)
     }
+
     fun onToggleClicked(view: View) {
         val on = (view as ToggleButton).isChecked
         val parentRow = view.getParent() as View
         val listView = parentRow.parent as ListView
         val position = listView.getPositionForView(parentRow)
         val selectedCharacter = listView.getItemAtPosition(position) as Character
-        println(selectedCharacter.id)
         if (on) {
-          println("on")
+            try {
+                val outputStream : OutputStream
+                outputStream = openFileOutput(filename, Context.MODE_APPEND)
+                val idCharacterFav : String = selectedCharacter.id.toString() + ","
+                outputStream.write(idCharacterFav.toByteArray())
+                outputStream.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         } else {
-            println("off")
+            try {
+                val fileInputStream : FileInputStream = openFileInput(filename)
+                val inputStreamReader = InputStreamReader(fileInputStream)
+
+                val bufferedReader = BufferedReader(inputStreamReader)
+                val stringBuffer : StringBuffer = StringBuffer()
+
+                println(bufferedReader.readLine())
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
+
+   /* fun fileExist(fname: String): Boolean {
+        val file = baseContext.getFileStreamPath(fname)
+        return file.exists()
+    }
+*/
 }
 
