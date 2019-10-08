@@ -22,7 +22,7 @@ class CharacterListActivity : AppCompatActivity() {
 
     private val listCharacter = ArrayList<Character>()
     private var residents = JSONArray()
-    var filename = "character_fav_test.txt"
+    var filename = "character_fav_test2.txt"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,33 +96,17 @@ class CharacterListActivity : AppCompatActivity() {
         val selectedCharacter = listView.getItemAtPosition(position) as Character
         if (on) {
             try {
-                val outputStream : OutputStream
-                outputStream = openFileOutput(filename, Context.MODE_APPEND)
-                val idCharacterFav : String = selectedCharacter.id.toString() + ","
-                outputStream.write(idCharacterFav.toByteArray())
-                outputStream.close()
+                LocalFileManager.writeFile(this, filename, selectedCharacter.id.toString())
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         } else {
             try {
-                val fileInputStream : FileInputStream = openFileInput(filename)
-                val inputStreamReader = InputStreamReader(fileInputStream)
-
-                val bufferedReader = BufferedReader(inputStreamReader)
-                val stringBuffer : StringBuffer = StringBuffer()
-
-                println(bufferedReader.readLine())
+               LocalFileManager.deleteAndSave(this, filename, selectedCharacter.id.toString())
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
-
-   /* fun fileExist(fname: String): Boolean {
-        val file = baseContext.getFileStreamPath(fname)
-        return file.exists()
-    }
-*/
 }
 
