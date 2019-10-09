@@ -28,4 +28,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="@dimen/text_size"/>
+
+    <ToggleButton
+        android:id="@+id/button_favorite"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:checked="false"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
+        android:background="@drawable/button_favorite"
+        android:focusable="false"
+        android:onClick="onToggleClickedLocation"/>
 </LinearLayout>

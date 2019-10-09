@@ -7,6 +7,11 @@
         android:icon="@drawable/ic_home"
         android:title="@string/home"/>
     <item
+        android:id="@+id/action_favorites_loc"
+        android:enabled="true"
+        android:icon="@drawable/ic_favorite_border"
+        android:title="@string/favorite_ic"/>
+    <item
         android:id="@+id/action_favorites"
         android:enabled="true"
         android:icon="@drawable/ic_favorite"

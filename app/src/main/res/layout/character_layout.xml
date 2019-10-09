@@ -57,6 +57,6 @@
         android:textOn=""
         android:background="@drawable/button_favorite"
         android:focusable="false"
-        android:onClick="onToggleClicked"/>
+        android:onClick="onToggleClickedCharacter"/>
 
 </LinearLayout>

@@ -2,5 +2,6 @@
     <string name="app_name">RickAndMortyApp</string>
     <string name="add_action">Add</string>
     <string name="home">Home</string>
-    <string name="favorite">Favorite</string>
+    <string name="favorite">Character</string>
+    <string name="favorite_ic">Location</string>
 </resources>

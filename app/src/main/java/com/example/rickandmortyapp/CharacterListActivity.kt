@@ -28,6 +28,7 @@ class CharacterListActivity : AppCompatActivity() {
         setContentView(R.layout.character_main)
 
         val isDesplayFav : Boolean = intent.getBooleanExtra("displayFav", false)
+
         if(isDesplayFav)
         {
            val listUrl: List<String> = LocalFileManager.getFileContent(this, filename)
@@ -154,7 +155,7 @@ class CharacterListActivity : AppCompatActivity() {
     {
         println("click label")
     }
-    fun onToggleClicked(view: View) {
+    fun onToggleClickedCharacter(view: View) {
         val on = (view as ToggleButton).isChecked
         val parentRow = view.getParent() as View
         val listView = parentRow.parent as ListView
