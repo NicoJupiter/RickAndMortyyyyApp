@@ -18,7 +18,6 @@ class  ListAdapterCharacter(val context: Context, val list: ArrayList<Character>
         val characterSpecies = view.findViewById(R.id.character_species) as AppCompatTextView
         val characterType = view.findViewById(R.id.character_type) as AppCompatTextView
         val characterGender = view.findViewById(R.id.character_gender) as AppCompatTextView
-        val characterImage = view.findViewById(R.id.character_img) as AppCompatTextView
 
         characterId.text = list[position].id.toString()
         characterName.text = list[position].name
@@ -26,7 +25,6 @@ class  ListAdapterCharacter(val context: Context, val list: ArrayList<Character>
         characterSpecies.text = list[position].species
         characterType.text = list[position].type
         characterGender.text = list[position].gender
-        characterImage.text = list[position].img
 
         return view
     }
@@ -42,4 +40,5 @@ class  ListAdapterCharacter(val context: Context, val list: ArrayList<Character>
     override fun getCount(): Int {
         return list.size
     }
+
 }

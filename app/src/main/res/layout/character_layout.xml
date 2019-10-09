@@ -41,11 +41,15 @@
         android:layout_height="match_parent"
         android:textSize="@dimen/text_size"/>
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <ImageView
         android:id="@+id/character_img"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="@dimen/text_size"/>
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="#def4e3"
+        android:tag="notLoaded"
+        android:contentDescription="@string/image_desc"
+        />
+
 
     <ToggleButton
         android:id="@+id/button_favorite"
