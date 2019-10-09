@@ -18,7 +18,7 @@ import android.widget.ToggleButton
 
 class MainActivity : AppCompatActivity() {
 
-    var filename = "location_fav_test.txt"
+    var filename = "location_fav.txt"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +29,14 @@ class MainActivity : AppCompatActivity() {
 
         if(isDesplayFav)
         {
-            val listUrl: List<String> = LocalFileManager.getFileContent(this, filename)
-           displayFavLocation(listUrl)
+            if(LocalFileManager.fileExist(this, filename))
+            {
+                val listUrl: List<String> = LocalFileManager.getFileContent(this, filename)
+                displayFavLocation(listUrl)
+            } else {
+                Toast.makeText(this , "No local fav to show" , Toast.LENGTH_LONG).show()
+                displayAllLocation()
+            }
         } else {
             displayAllLocation()
         }

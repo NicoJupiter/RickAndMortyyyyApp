@@ -4,6 +4,9 @@ import android.content.Context
 import java.io.BufferedReader
 import java.io.FileInputStream
 import java.io.InputStreamReader
+import java.nio.file.Files.exists
+
+
 
 class LocalFileManager {
     companion object {
@@ -43,6 +46,11 @@ class LocalFileManager {
             val bufferedReader = BufferedReader(inputStreamReader)
             val result: List<String> = bufferedReader.readLine().split(",").map { it.trim() }
             return result
+        }
+
+        fun fileExist(context: Context,path: String): Boolean {
+            val file = context.getFileStreamPath(path)
+            return file.exists()
         }
     }
 }

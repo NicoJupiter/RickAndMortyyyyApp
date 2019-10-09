@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.character_main.bottom_navigation
 class CharacterListActivity : AppCompatActivity() {
 
     private val listCharacter = ArrayList<Character>()
-    var filename = "character_fav_test2.txt"
+    var filename = "character_fav.txt"
     private val adapter = ListAdapterCharacter(this, listCharacter)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +32,14 @@ class CharacterListActivity : AppCompatActivity() {
 
         if(isDesplayFav)
         {
-           val listUrl: List<String> = LocalFileManager.getFileContent(this, filename)
-            displayFavoriteCharacter(listUrl)
+            if (LocalFileManager.fileExist(this , filename))
+            {
+                val listUrl: List<String> = LocalFileManager.getFileContent(this, filename)
+                displayFavoriteCharacter(listUrl)
+            } else {
+                Toast.makeText(this , "No character fav to show" , Toast.LENGTH_LONG).show()
+                displayResidentFromLocation(0)
+            }
         } else {
             val location = intent.getSerializableExtra("location") as Location
             displayResidentFromLocation(location.id)
