@@ -16,10 +16,5 @@
         android:enabled="true"
         android:icon="@drawable/ic_favorite"
         android:title="@string/favorite"/>
-    <item
-        android:id="@+id/action_add"
-        android:enabled="true"
-        android:icon="@drawable/ic_note_add"
-        android:title="@string/add_action" />
 
 </menu>

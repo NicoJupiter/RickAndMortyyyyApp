@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="20dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/location_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:visibility="gone"
+
         android:textSize="@dimen/text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/location_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
         android:textSize="@dimen/text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -20,6 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:onClick="getLocationbyType"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorPrimary"
         android:focusable="false"
         android:textSize="@dimen/text_size"/>
 
@@ -27,17 +35,19 @@
         android:id="@+id/location_dimension"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_horizontal"
         android:textSize="@dimen/text_size"/>
 
     <ToggleButton
-        android:id="@+id/button_favorite"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:id="@+id/button_favoriteLayout"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:checked="false"
         android:text=""
         android:textOff=""
         android:textOn=""
         android:background="@drawable/button_favorite"
         android:focusable="false"
+        android:gravity="center_horizontal"
         android:onClick="onToggleClickedLocation"/>
 </LinearLayout>

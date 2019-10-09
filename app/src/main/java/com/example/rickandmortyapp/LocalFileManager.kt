@@ -24,14 +24,7 @@ class LocalFileManager {
             var result: List<String> = bufferedReader.readLine().split(",").map { it.trim() }
             println(result)
             val mutableList : MutableList<String> = result.toMutableList()
-            if(mutableList.remove(selectedItem))
-            {
-                println("removed")
-                println(mutableList)
-                println(mutableList.size)
-            } else {
-                println("failed to remove")
-            }
+            mutableList.remove(selectedItem)
             bufferedReader.close()
             context.deleteFile(filename)
 

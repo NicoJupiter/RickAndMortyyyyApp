@@ -8,24 +8,14 @@ import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.toolbox.ImageRequest
 import com.android.volley.toolbox.StringRequest
-import kotlinx.android.synthetic.main.character_layout.*
 import kotlinx.android.synthetic.main.character_main.*
 import org.json.JSONArray
 import org.json.JSONObject
-import com.google.android.material.snackbar.Snackbar
-import com.android.volley.VolleyError
-import android.graphics.Bitmap
-import android.widget.ImageView.ScaleType
-import android.widget.ImageView
-import androidx.core.view.size
-import android.view.ViewTreeObserver
-import androidx.core.view.get
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.character_layout.view.*
+import android.widget.Toast
 import kotlinx.android.synthetic.main.character_main.bottom_navigation
-import kotlinx.android.synthetic.main.character_main.view.*
+
+
 
 
 class CharacterListActivity : AppCompatActivity() {
@@ -37,7 +27,6 @@ class CharacterListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.character_main)
-
         val isDesplayFav : Boolean = intent.getBooleanExtra("displayFav", false)
         VolleySingleton.getInstance(this).requestQueue
 
@@ -76,16 +65,13 @@ class CharacterListActivity : AppCompatActivity() {
                     intent.putExtra("displayFav", true)
                     startActivity(intent)
                 }
-                R.id.action_add -> {
-                    println("add")
-                }
             }
             return@setOnNavigationItemSelectedListener true
         }
 
     }
 
-    private val displayImg = object : View.OnLayoutChangeListener {
+   /* private val displayImg = object : View.OnLayoutChangeListener {
         override fun onLayoutChange(v: View, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
 
             if(listCharacter.size > 0)
@@ -104,7 +90,7 @@ class CharacterListActivity : AppCompatActivity() {
                 }
             }
         }
-    }
+    }*/
 
     private fun displayFavoriteCharacter(urls : List<String>) {
 
@@ -168,24 +154,6 @@ class CharacterListActivity : AppCompatActivity() {
 
     }
 
-    private fun loadImgCharacter(imgUrl : String, characterImg: ImageView)
-    {
-        val imageRequest = ImageRequest(
-            imgUrl,
-            Response.Listener { response ->
-                characterImg.setImageBitmap(response)
-            },
-            characterImg.layoutParams.width, // Image width
-            characterImg.layoutParams.height, // Image height
-            ScaleType.MATRIX, // Image scale type
-            Bitmap.Config.ARGB_8888, //Image decode configuration
-            Response.ErrorListener { error ->
-                println("failed img load")
-            }
-        )
-        VolleySingleton.getInstance(this).addToRequestQueue(imageRequest)
-    }
-
     private fun getResidents(url : String?)
     {
         val stringRequest = StringRequest(
@@ -226,19 +194,40 @@ class CharacterListActivity : AppCompatActivity() {
         val listView = parentRow.parent as ListView
         val position = listView.getPositionForView(parentRow)
         val selectedCharacter = listView.getItemAtPosition(position) as Character
+
         if (on) {
             try {
                 LocalFileManager.writeFile(this, filename, selectedCharacter.id.toString())
+                Toast.makeText(this , "Add character to fav" , Toast.LENGTH_LONG).show()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         } else {
             try {
                LocalFileManager.deleteAndSave(this, filename, selectedCharacter.id.toString())
+                Toast.makeText(this , "Remove character to fav" , Toast.LENGTH_LONG).show()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
+
+  /*  private fun loadImgCharacter(imgUrl : String, characterImg: ImageView)
+    {
+        val imageRequest = ImageRequest(
+            imgUrl,
+            Response.Listener { response ->
+                characterImg.setImageBitmap(response)
+            },
+            characterImg.layoutParams.width, // Image width
+            characterImg.layoutParams.height, // Image height
+            ScaleType.MATRIX, // Image scale type
+            Bitmap.Config.ARGB_8888, //Image decode configuration
+            Response.ErrorListener { error ->
+                println("failed img load")
+            }
+        )
+        VolleySingleton.getInstance(this).addToRequestQueue(imageRequest)
+    }*/
 }
 

@@ -12,6 +12,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import android.view.View
 import android.widget.ListView
+import android.widget.Toast
 import android.widget.ToggleButton
 
 
@@ -57,9 +58,6 @@ class MainActivity : AppCompatActivity() {
                     val intent = Intent(this, MainActivity::class.java)
                     intent.putExtra("displayFav", true)
                     startActivity(intent)
-                }
-                R.id.action_add -> {
-                    println("add")
                 }
             }
             return@setOnNavigationItemSelectedListener true
@@ -156,12 +154,14 @@ class MainActivity : AppCompatActivity() {
         if (on) {
             try {
                 LocalFileManager.writeFile(this, filename, selectedLocation.id.toString())
+                Toast.makeText(this , "Add location to fav" , Toast.LENGTH_LONG).show()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         } else {
             try {
                 LocalFileManager.deleteAndSave(this, filename, selectedLocation.id.toString())
+                Toast.makeText(this , "Remove Location to fav" , Toast.LENGTH_LONG).show()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
